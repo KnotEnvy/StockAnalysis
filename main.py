@@ -6,7 +6,7 @@ from transformers import pipeline
 from tkinter import ttk
 
 API_KEY = "YOUR_ALPHA_VANTAGE_API_KEY"
-NEWS_API_KEY = "913bee3728d9419e971abd8ce50c30b5"
+NEWS_API_KEY = "YOUR_NEWS_API_KEY"
 
 # Initialize sentiment analysis pipeline
 sentiment_analyzer = pipeline("sentiment-analysis")
