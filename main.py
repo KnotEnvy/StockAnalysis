@@ -4,9 +4,14 @@ import json
 import pandas as pd
 from transformers import pipeline
 from tkinter import ttk
+import os
+from dotenv import load_dotenv
 
-API_KEY = "YOUR_ALPHA_VANTAGE_API_KEY"
-NEWS_API_KEY = "YOUR_NEWS_API_KEY"
+load_dotenv()
+
+API_KEY = os.getenv("ALPHA_VANTAGE_API_KEY")
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+
 
 # Initialize sentiment analysis pipeline
 sentiment_analyzer = pipeline("sentiment-analysis")
@@ -15,8 +20,14 @@ def fetch_news(stock_symbol):
     url = f"https://newsapi.org/v2/everything?q={stock_symbol}&apiKey={NEWS_API_KEY}"
     response = requests.get(url)
     data = json.loads(response.text)
-    headlines = [article['title'] for article in data['articles'][:5]]
-    return headlines
+    
+    if 'articles' in data:
+        headlines = [article['title'] for article in data['articles'][:5]]
+        return headlines
+    else:
+        print(f"Error fetching news: {data}")
+        return ["Error fetching news"]
+
 
 def calculate_rsi(data, window):
     delta = data.diff()
